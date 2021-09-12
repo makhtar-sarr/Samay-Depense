@@ -1,0 +1,156 @@
+<div class="row">
+  <mdb-card class="w-100">
+    <mdb-card-body>
+      <mdb-card-title>
+        <h4>depenses</h4>
+      </mdb-card-title>
+      <mdb-card-text>
+        <div class="row">
+          <div class="col-sm-12">
+            <form [formGroup]="form" (submit)="createDepense()">
+              <h5>Ajouter un depense</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="md-form">
+                    <input mdbInput type="text" formControlName="nom_dep" id="form1" class="form-control">
+                    <label for="form1" class="">Nom depense</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="md-form">
+                    <input mdbInput type="number" formControlName="montant_dep" id="form1" class="form-control">
+                    <label for="form1" class="">Montant</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <select class="browser-default custom-select mt-4" formControlName="categorie_dep_id" (click)="getSousCatByCat(f1.categorie_dep_id.value)">
+                    <option [disabled]="true" [selected]="labCat === 'categorie'">Categorie</option>
+                    <option *ngFor="let catDep of catDeps" [ngValue]="catDep?.id" >{{catDep?.nom_cat}}</option>
+                    <option *ngFor="let catDep of catDepDefault" [ngValue]="catDep?.id" >{{catDep?.nom_cat}}</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="md-form">
+                    <select class="browser-default custom-select" formControlName="sous_categorie_dep_id">
+                      <option [disabled]="true" [selected]="labCat === 'categorie'">Sous-categorie</option>
+                      <option *ngFor="let sousCatDep of sousCatInput" [ngValue]="sousCatDep?.id">{{sousCatDep?.nom_sous_cat}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="md-form">
+                <textarea class="md-textarea form-control " formControlName="description_dep" rows="2" id="input_text" type="text" length="120" mdbCharCounter mdbInput></textarea>
+                <label for="input_text">Description</label>
+              </div>
+              <button type="submit" [disabled]="!form.valid" mdbBtn color="secondary" mdbWavesEffect>Enregistrer</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-12 w-100">
+            <h5>Liste Depenses</h5>
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-responsive-md">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nom</th>
+                  <th>Montant</th>
+                  <th>Categorie</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="depenses?.length != 0">
+                <tr *ngFor="let depense of depenses; let i = index">
+                  <td>{{ i+1 }}</td>
+                  <td>{{ depense.nom_dep }}</td>
+                  <td>{{ depense.montant_dep }}</td>
+                  <td>
+                    <span *ngFor="let catDep of catDeps">
+                      <span *ngIf="catDep?.id == depense?.categorie_dep_id">{{ catDep?.nom_cat }}</span>
+                    </span>
+                    <span *ngFor="let catDep of catDepDefault">
+                      <span *ngIf="catDep?.id == depense?.categorie_dep_id">{{ catDep?.nom_cat }}</span>
+                    </span>
+                  </td>
+                  <td>{{ depense.created_at | date: 'M/d/yyyy, H:mm'}}</td>
+                  <td>
+                    <a class="nav-link">
+                      <div class="btn-group dropleft" mdbDropdown>
+                        <mdb-icon size="sm" fas icon="ellipsis-v" mdbDropdownToggle></mdb-icon>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-primary">
+                          <a class="dropdown-item" (click)="supprimerDepense(depense)"><mdb-icon fas icon="trash-alt"></mdb-icon> Supprimer</a>
+                          <a class="dropdown-item" data-toggle="modal" data-target="#basicExample"
+                          (click)="frame.show(); createFormUpdate(depense)"><mdb-icon fas icon="edit"></mdb-icon> Modifier</a>
+                        </div>
+                      </div>
+                    </a>
+                  </td>
+                  <div style="overflow-y: auto" mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header text-center">
+                          <h4 class="modal-title w-100 font-weight-bold">Modification</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form [formGroup]="form2" (submit)="updateDepense(depense)">
+                          <div class="modal-body mx-3">
+                            <div class="md-form mb-2">
+                              <input mdbInput type="text" formControlName="nom_dep" [ngClass]="{ 'is-invalid': f2.nom_dep.touched && f2.nom_dep.errors }" class="form-control">
+                              <label>Nom depense</label>
+                            </div>
+
+                            <div class="md-form mb-2">
+                              <input mdbInput type="text" formControlName="montant_dep" [ngClass]="{ 'is-invalid': f2.nom_dep.touched && f2.montant_dep.errors }" class="form-control">
+                              <label>Montant</label>
+                            </div>
+
+                            <select class="browser-default custom-select mt-4" formControlName="categorie_dep_id" (click)="getSousCatByCat(f2.categorie_dep_id.value)">
+                              <option [disabled]="true" [selected]="labCat === 'categorie'">Categorie</option>
+                              <option *ngFor="let catDep of catDeps" [ngValue]="catDep?.id" >{{catDep?.nom_cat}}</option>
+                              <option *ngFor="let catDep of catDepDefault" [ngValue]="catDep?.id" >{{catDep?.nom_cat}}</option>
+                            </select>
+
+                            <select class="browser-default custom-select mt-4" formControlName="sous_categorie_dep_id">
+                              <option [disabled]="true" [selected]="labCat === 'categorie'">Sous-categorie</option>
+                              <option *ngFor="let sousCatDep of sousCatInput" [ngValue]="sousCatDep?.id">{{sousCatDep?.nom_sous_cat}}</option>
+                            </select>
+
+                            <div class="md-form">
+                              <textarea mdbInput class="md-textarea form-control " formControlName="description_dep" rows="1" [ngClass]="{ 'is-invalid': f2.description_dep.touched && f2.description_dep.errors }" id="input_text" type="text" length="120" mdbCharCounter></textarea>
+                              <label>Description</label>
+                            </div>
+
+                          </div>
+                          <div class="modal-footer d-flex justify-content-center">
+                            <button mdbBtn color="purple" type="submit" [disabled]="!form2.valid" class="waves-light" mdbWavesEffect>Enregistrer
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </tr>
+              </tbody>
+              <tbody *ngIf="depenses?.length == 0">
+                <tr>
+                  <td colspan="6" class="no-data-available">Depenses vide!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mdb-card-text>
+    </mdb-card-body>
+  </mdb-card>
+</div>

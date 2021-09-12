@@ -1,0 +1,36 @@
+<header class="intro-header">
+
+  <!--Navbar-->
+  <mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark purple fixed-top scrolling-navbar">
+    <mdb-navbar-brand>
+      <a class="navbar-brand" routerLink="/accueil">
+          <img [src]="logo" height="30" class="d-inline-block align-top" alt="">
+          Samay Depenses
+      </a>
+    </mdb-navbar-brand>
+    <links>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link waves-light" routerLink="/accueil" mdbWavesEffect>Accueil</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link waves-light" routerLink="/apropos" mdbWavesEffect>A propos</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link waves-light" routerLink="/equipe" mdbWavesEffect>Notre Equipe</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active">
+          <a class="nav-link waves-light" routerLink="/contact" mdbWavesEffect>Contact</a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto nav-flex-icons">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/login">
+            <mdb-icon fas icon="sign-in-alt"></mdb-icon> Se connecter
+          </a>
+        </li>
+      </ul>
+    </links>
+  </mdb-navbar>
+</header>

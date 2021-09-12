@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div class="container w-responsive d-block p-5 mx-auto mt-5">
+    <mdb-card>
+
+      <mdb-card-header class="purple white-text text-center py-4">
+        <h5>
+          <strong>Connexion</strong>
+        </h5>
+      </mdb-card-header>
+
+      <!--Card content-->
+      <mdb-card-body class="px-lg-5 pt-0">
+
+        <!-- Form -->
+        <form class="text-center w-responsive mx-auto" style="color: #757575;" [formGroup]="form" (submit)="onSubmit()">
+
+          <img src="./../../../assets/images/logo.svg" class="rounded mx-auto d-block mb-4 mt-4" height="50px" width="50px" alt="...">
+
+          <input type="email" formControlName="email" id="defaultLoginFormEmail" class="form-control" placeholder="E-mail" [ngClass]="{ 'is-invalid': f.email.touched && f.email.errors }">
+          <div *ngIf="f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">L'e-mail est obligatoire</div>
+            <div *ngIf="f.email.errors.email">L'e-mail doit etre une adresse mail valide.</div>
+          </div>
+
+          <!-- Password -->
+          <input type="password" formControlName="password" id="defaultLoginFormPassword" class="form-control mt-4" placeholder="Mot de passe" [ngClass]="{ 'is-invalid': f.password.touched && f.password.errors }">
+          <div *ngIf="f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Le mot de passe est obligatoire</div>
+          </div>
+
+          <!-- Sign in button -->
+          <button mdbBtn color="purple" class="my-4" type="submit">Se connecter</button>
+
+          <p>Vous n'avez pas de compte?</p>
+
+          <a routerLink="/signup" type="button" class="purple-text mx-2">
+            <mdb-icon fas icon="user-plus"></mdb-icon> Creer un compte
+          </a>
+        </form>
+      </mdb-card-body>
+    </mdb-card>
+  </div>
+</div>

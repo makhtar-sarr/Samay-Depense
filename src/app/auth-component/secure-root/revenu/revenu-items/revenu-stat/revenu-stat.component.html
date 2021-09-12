@@ -1,0 +1,79 @@
+<div class="row mt-4">
+  <mdb-card class="w-100">
+    <mdb-card-body>
+      <mdb-card-title>
+        <h5>Statestique</h5>
+        <h6 class="text-muted mb-2">Ici s'affiche les graphes comparatives et le total de vos revenus.</h6>
+      </mdb-card-title>
+      <mdb-card-text>
+
+        <!--Grid row-->
+        <div class="row text-center">
+
+          <!--Grid column-->
+
+          <div class="col-md-6 mb-4">
+
+            <!--Featured image-->
+            <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+              <div style="display: block">
+                <canvas id="canvasMonth">{{ chartMonth }}</canvas>
+              </div>
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+
+            <!--Excerpt-->
+            <mdb-card-body class="mt-3">
+              <h4>
+                <strong>Evolution des revenus</strong>
+              </h4>
+              <p class="grey-text">Evolution des revenus par mois.
+              </p>
+            </mdb-card-body>
+
+          </div>
+          <!--Grid column-->
+
+          <!--Grid column-->
+          <div class="col-md-6 mb-4">
+
+            <!--Featured image-->
+            <div class="view rgba-white-slight waves-light" mdbWavesEffect>
+              <div class="mx-auto" style="display: block">
+                <canvas id="canvasPie" *ngIf="chartPie">{{ chartPie }}
+                </canvas>
+              </div>
+              <a>
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+
+            <!--Excerpt-->
+            <mdb-card-body class="mt-3">
+              <h4>
+                <strong>Revenu par categorie</strong>
+              </h4>
+              <p class="grey-text">Comparaison des revenus faits par categorie
+              </p>
+            </mdb-card-body>
+
+          </div>
+          <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <h3>Total revenu <span class="badge badge-success">{{ montant }} F</span></h3>
+          </div>
+          <div class="col-md-6 mb-4">
+            <h3>Solde restant <span class="badge badge-warning">{{ soldeRestant }} F</span></h3>
+          </div>
+        </div>
+      </mdb-card-text>
+    </mdb-card-body>
+  </mdb-card>
+</div>

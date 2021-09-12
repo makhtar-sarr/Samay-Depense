@@ -1,0 +1,115 @@
+<div class="row">
+  <mdb-card class="w-100">
+    <mdb-card-body>
+      <mdb-card-title>
+        <h4>Revenus</h4>
+      </mdb-card-title>
+      <mdb-card-text>
+        <div class="row">
+          <div class="col-sm-12">
+            <form [formGroup]="form" (submit)="createRevenu()">
+              <h5>Ajouter un revenu</h5>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="md-form">
+                    <input mdbInput type="number" formControlName="montant_rev" id="form1" class="form-control">
+                    <label for="form1" class="">Montant</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <select class="browser-default custom-select mt-4" formControlName="categorie_rev_id">
+                    <option [disabled]="true" [selected]="labCat === 'categorie'">Categorie</option>
+                    <option *ngFor="let catRev of catRevs" [ngValue]="catRev?.id" >{{catRev?.nom_cat}}</option>
+                    <option *ngFor="let catRev of catRevDefault" [ngValue]="catRev?.id" >{{catRev?.nom_cat}}</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" [disabled]="!form.valid" mdbBtn color="secondary" mdbWavesEffect>Enregistrer</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-12 w-100">
+            <h5>Liste Revenus</h5>
+            <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-responsive-md">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Montant</th>
+                  <th>Categorie</th>
+                  <th>Date</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="revenus?.length != 0">
+                <tr *ngFor="let revenu of revenus; let i = index">
+                  <td>{{ i+1 }}</td>
+                  <td>{{ revenu?.montant_rev }}</td>
+                  <td>
+                    <span *ngFor="let catRev of catRevs">
+                      <span *ngIf="catRev?.id == revenu?.categorie_rev_id">{{ catRev?.nom_cat }}</span>
+                    </span>
+                    <span *ngFor="let catRev of catRevDefault">
+                      <span *ngIf="catRev?.id == revenu?.categorie_rev_id">{{ catRev?.nom_cat }}</span>
+                    </span>
+                  </td>
+                  <td>{{ revenu?.created_at | date: 'M/d/yyyy, H:mm'}}</td>
+                  <td>
+                    <a class="nav-link">
+                      <div class="btn-group dropleft" mdbDropdown>
+                        <mdb-icon size="sm" fas icon="ellipsis-v" mdbDropdownToggle></mdb-icon>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-primary">
+                          <a class="dropdown-item" (click)="supprimerRevenu(revenu)"><mdb-icon fas icon="trash-alt"></mdb-icon> Supprimer</a>
+                          <a class="dropdown-item" data-toggle="modal" data-target="#basicExample"
+                          (click)="frame.show(); createFormUpdate(revenu)"><mdb-icon fas icon="edit"></mdb-icon> Modifier</a>
+                        </div>
+                      </div>
+                    </a>
+                  </td>
+                  <div style="overflow-y: auto" mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header text-center">
+                          <h4 class="modal-title w-100 font-weight-bold">Modification</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <form [formGroup]="form2" (submit)="updateRevenu(revenu)">
+                          <div class="modal-body mx-3">
+                            <div class="md-form mb-2">
+                              <input mdbInput type="text" formControlName="montant_rev" [ngClass]="{ 'is-invalid': f2.montant_rev.touched && f2.montant_rev.errors }" class="form-control">
+                              <label>Montant</label>
+                            </div>
+
+                            <select class="browser-default custom-select mt-4" formControlName="categorie_rev_id">
+                              <option [disabled]="true" [selected]="labCat === 'categorie'">Categorie</option>
+                              <option *ngFor="let catRev of catRevs" [ngValue]="catRev?.id" >{{catRev?.nom_cat}}</option>
+                              <option *ngFor="let catRev of catRevDefault" [ngValue]="catRev?.id" >{{catRev?.nom_cat}}</option>
+                            </select>
+                          </div>
+                          <div class="modal-footer d-flex justify-content-center">
+                            <button mdbBtn color="purple" type="submit" [disabled]="!form2.valid" class="waves-light" mdbWavesEffect>Enregistrer
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </tr>
+              </tbody>
+              <tbody *ngIf="revenus?.length == 0">
+                <tr>
+                  <td colspan="6" class="no-data-available">Revenus vide!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </mdb-card-text>
+    </mdb-card-body>
+  </mdb-card>
+</div>

@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-12 mt-4">
+    <mdb-card>
+      <mdb-card-body>
+        <mdb-card-title>
+          <h5>Revenus</h5>
+          <h6 class="text-muted mb-2">Ici s'affiche les revenus enregistre.</h6>
+        </mdb-card-title>
+        <mdb-card-text>
+          <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-responsive-md">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Montant</th>
+                <th>Categorie</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="revenus?.length != 0">
+              <tr *ngFor="let revenu of revenus; let i = index">
+                <td>{{ i+1 }}</td>
+                <td>{{ revenu.montant_rev }} F cfa</td>
+                <td>
+                  <span *ngFor="let catRev of catRevs">
+                    <span *ngIf="catRev?.id == revenu?.categorie_rev_id">{{ catRev?.nom_cat }}</span>
+                  </span>
+                  <span *ngFor="let catRev of catRevDefault">
+                    <span *ngIf="catRev?.id == revenu?.categorie_rev_id">{{ catRev?.nom_cat }}</span>
+                  </span>
+                </td>
+                <td>{{ revenu.created_at | date: 'M/d/yyyy, H:mm'}}</td>
+                <td>Action</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="revenus?.length == 0">
+              <tr>
+                <td colspan="6" class="no-data-available">Depenses vide!</td>
+              </tr>
+            </tbody>
+          </table>
+        </mdb-card-text>
+      </mdb-card-body>
+    </mdb-card>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+<form [formGroup]="form" (submit)="createSousCategorieDepense()">
+  <h4>Ajouter un sous categorie</h4>
+  <div class="row">
+    <div class="col-lg-6 col-sm-12">
+      <select class="browser-default custom-select mt-4" formControlName="categorie_dep_id">
+        <option [ngValue]="null" [disabled]="true" [selected]="true">Categorie</option>
+        <option *ngFor="let catDep of catDeps" [ngValue]="catDep?.id">{{catDep?.nom_cat}}</option>
+        <option ng *ngFor="let catDepDef of catDepDefault" [ngValue]="catDepDef?.id">{{catDepDef?.nom_cat}}</option>
+      </select>
+    </div>
+
+    <div class="col-lg-6 col-sm-12">
+      <div class="md-form">
+        <input mdbInput type="text" id="form1" class="form-control" formControlName="nom_sous_cat">
+        <label for="form1" class="">Nom sous categorie</label>
+      </div>
+    </div>
+  </div>
+  <div class="md-form">
+    <textarea class="md-textarea form-control" formControlName="desc_sous_cat" rows="3" id="input_text" type="text" length="120" mdbCharCounter mdbInput></textarea>
+    <label for="input_text">Description</label>
+  </div>
+
+  <button type="submit" [disabled]="!form.valid" mdbBtn color="secondary" mdbWavesEffect>Enregistrer</button>
+</form>
+
+<div class="list-group list-group-flush">
+  <h4>Liste des sous-categories</h4>
+  <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" *ngFor="let sousCatDep of sousCatDeps">
+    <a (click)="basicModal.show()" mdbWavesEffect>{{ sousCatDep?.nom_sous_cat }}</a>
+
+    <div mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header text-center">
+            <h4 class="modal-title w-100 font-weight-bold">Modification</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form [formGroup]="form2" (submit)="updateSousCategorieDepense(sousCatDep)">
+            <div class="modal-body mx-3">
+              <div class="mb-5">
+                <select class="browser-default custom-select mt-4" formControlName="categorie_dep_id">
+                  <option *ngFor="let catDep of catDeps" [ngValue]="catDep?.id">{{catDep?.nom_cat}}</option>
+                </select>
+              </div>
+
+              <div class="md-form">
+                <input mdbInput type="text" class="form-control" formControlName="nom_sous_cat">
+                <label>Nom sous categorie</label>
+              </div>
+
+              <div class="md-form">
+                <textarea class="md-textarea form-control" formControlName="desc_sous_cat" rows="1" type="text" length="120" mdbCharCounter mdbInput></textarea>
+                <label>Description</label>
+              </div>
+
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+              <button mdbBtn color="purple" type="submit" [disabled]="!form2.valid" class="waves-light" mdbWavesEffect>Enregistrer
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title w-100" id="myModalLabel">{{ sousCatDep?.nom_sous_cat }}</h4>
+          </div>
+          <div class="modal-body">
+            <p>Categorie:
+              <span *ngFor="let cat of catDeps">
+                <span *ngIf="cat?.id === sousCatDep.id">{{ cat.nom_cat }}</span>
+              </span>
+            </p>
+            <p>{{ sousCatDep?.desc_sous_cat }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close" (click)="basicModal.hide(); supprimerSousCategorieDepense(sousCatDep)" mdbWavesEffect><mdb-icon fas icon="trash-alt"></mdb-icon> Supprimer</button>
+            <button type="button" mdbBtn color="warning" class="relative waves-light" mdbWavesEffect (click)="basicModal.hide(); frame.show(); createFormUpdate(sousCatDep)"><mdb-icon fas icon="edit"></mdb-icon> Modifier</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="nav-link">
+      <div class="btn-group dropleft" mdbDropdown>
+        <mdb-icon size="sm" fas icon="ellipsis-v" mdbDropdownToggle></mdb-icon>
+        <div class="dropdown-menu dropdown-menu-right dropdown-primary">
+          <a class="dropdown-item" (click)="supprimerSousCategorieDepense(sousCatDep)"><mdb-icon fas icon="trash-alt"></mdb-icon> Supprimer</a>
+          <a class="dropdown-item" data-toggle="modal" data-target="#basicExample"
+          (click)="frame.show(); createFormUpdate(sousCatDep)"><mdb-icon fas icon="edit"></mdb-icon> Modifier</a>
+        </div>
+      </div>
+    </a>
+  </a>
+
+  <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" *ngFor="let sousCatDep of sousCatDepDefault">
+    <a (click)="basicModal.show()" mdbWavesEffect>{{ sousCatDep?.nom_sous_cat }}</a>
+
+    <div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title w-100" id="myModalLabel">{{ sousCatDep?.nom_sous_cat }}</h4>
+          </div>
+          <div class="modal-body">
+            <p>Categorie:
+              <span *ngFor="let cat of catDepDefault">
+                <span *ngIf="cat?.id == sousCatDep?.categorie_dep_id">{{ cat.nom_cat }}</span>
+              </span>
+            </p>
+            {{ sousCatDep?.desc_sous_cat }}
+          </div>
+          <div class="modal-footer">
+            <button type="button" mdbBtn color="danger" class="waves-light" aria-label="Close" mdbWavesEffect disabled><mdb-icon fas icon="trash-alt"></mdb-icon> Supprimer</button>
+            <button type="button" mdbBtn color="warning" class="relative waves-light" mdbWavesEffect disabled><mdb-icon fas icon="edit"></mdb-icon> Modifier</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <a class="nav-link">
+      <div class="btn-group dropleft" mdbDropdown>
+        <mdb-icon size="sm" fas icon="ellipsis-v" mdbDropdownToggle></mdb-icon>
+        <div class="dropdown-menu dropdown-menu-right dropdown-primary">
+          <a class="dropdown-item" disabled><mdb-icon fas icon="trash-alt"></mdb-icon> Supprimer</a>
+          <a class="dropdown-item" disabled><mdb-icon fas icon="edit"></mdb-icon> Modifier</a>
+        </div>
+      </div>
+    </a>
+  </a>
+</div>
