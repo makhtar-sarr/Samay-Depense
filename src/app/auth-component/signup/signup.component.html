@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div class="container w-responsive d-block p-5 mx-auto mt-5">
+  <div class="container w-100 d-block mt-5">
     <mdb-card>
     <!-- Default form register -->
     <mdb-card-header class="purple white-text text-center py-4">
@@ -14,7 +14,7 @@
      <img src="./../../../assets/images/logo.svg" class="rounded mx-auto d-block mb-4 mt-4" height="50px" width="50px" alt="...">
 
      <div class="form-row">
-       <div class="col-sm-12 col-lg-6 mb-4">
+       <div class="col-md-6 mb-4">
           <!-- First name -->
          <input formControlName="prenom" type="text" id="defaultRegisterFormFirstName" class="form-control" placeholder="Prenom" [ngClass]="{ 'is-invalid': f.prenom.touched && f.prenom.errors }">
          <div *ngIf="f.prenom.errors" class="invalid-feedback">
@@ -23,7 +23,7 @@
           <div *ngIf="f.prenom.errors.maxlength">Le prenom doit contenir moins de 150 caracteres</div>
         </div>
        </div>
-       <div class="col-sm-12 col-lg-6 mb-4">
+       <div class="col-md-6 mb-4">
          <!-- Last name -->
          <input formControlName="nom" type="text" id="defaultRegisterFormLastName" class="form-control" placeholder="nom" [ngClass]="{ 'is-invalid': f.nom.touched && f.nom.errors }">
          <div *ngIf="f.nom.errors" class="invalid-feedback">
@@ -35,7 +35,7 @@
      </div>
 
      <div class="form-row">
-       <div class="col-sm-12 col-lg-6 mb-4">
+       <div class="col-md-6 mb-4">
          <!-- Poste -->
          <input formControlName="poste" type="text" id="defaultRegisterFormPoste" class="form-control" placeholder="Poste occupe" [ngClass]="{ 'is-invalid': f.poste.touched && f.poste.errors }">
          <div *ngIf="f.poste.errors" class="invalid-feedback">
@@ -44,7 +44,7 @@
           <div *ngIf="f.poste.errors.maxlength">Le poste occupe doit contenir moins de 150 caracteres</div>
         </div>
        </div>
-       <div class="col-sm-12 col-lg-6 mb-4">
+       <div class="col-md-6 mb-4">
          <!-- E-mail -->
          <input formControlName="email" type="email" id="defaultRegisterFormEmail" class="form-control" placeholder="E-mail" [ngClass]="{ 'is-invalid': f.email.touched && f.email.errors }">
          <div *ngIf="f.email.errors" class="invalid-feedback">
@@ -55,7 +55,7 @@
      </div>
 
      <div class="form-row">
-       <div class="col-sm-12 col-lg-6 mb-4">
+       <div class="col-md-6 mb-4">
          <!-- Password -->
          <input formControlName="password" type="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Mot de passe" [ngClass]="{ 'is-invalid': f.password.touched && f.password.errors }">
          <div *ngIf="f.password.errors" class="invalid-feedback">
@@ -63,7 +63,7 @@
           <div *ngIf="f.password.errors.minlength">Le mot de passe doit contenir au moins 8 caracteres</div>
         </div>
        </div>
-       <div class="col-sm-12 col-lg-6 mb-4">
+       <div class="col-md-6 mb-4">
          <!-- E-mail -->
          <input formControlName="confirm_password" type="password" id="defaultRegisterFormConf" class="form-control" placeholder="Confirmation" [ngClass]="{ 'is-invalid': f.confirm_password.touched && f.confirm_password.errors }">
          <div *ngIf="f.confirm_password.errors" class="invalid-feedback">

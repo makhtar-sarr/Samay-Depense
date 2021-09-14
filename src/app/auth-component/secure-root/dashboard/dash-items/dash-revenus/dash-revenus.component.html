@@ -30,7 +30,7 @@
                   </span>
                 </td>
                 <td>{{ revenu.created_at | date: 'M/d/yyyy, H:mm'}}</td>
-                <td>Action</td>
+                <td><a class="btn btn-secondary btn-sm" [routerLink]="['/revenu', revenu?.id]"><mdb-icon fas icon="eye"></mdb-icon></a></td>
               </tr>
             </tbody>
             <tbody *ngIf="revenus?.length == 0">

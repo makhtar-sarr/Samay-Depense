@@ -1,4 +1,6 @@
-<app-menu *ngIf="!loggedIn"></app-menu>
-<app-side-menu *ngIf="loggedIn"></app-side-menu>
-<ngx-loading-bar ref="http" color="white" diameter="20px" height="2px"></ngx-loading-bar>
-<router-outlet></router-outlet>
+<div class="container-fluid">
+  <app-menu *ngIf="!loggedIn"></app-menu>
+  <app-side-menu *ngIf="loggedIn"></app-side-menu>
+  <ngx-loading-bar ref="http" color="white" diameter="20px" height="2px"></ngx-loading-bar>
+  <router-outlet></router-outlet>  
+</div>

@@ -41,6 +41,13 @@ export class DepenseService {
     return this.httpClient.post('http://localhost:8000/api/depenses', formData, {headers})
   }
 
+  showDepense(id: number) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.httpClient.get(`http://localhost:8000/api/depenses/${id}`, {headers})
+  }
+
   updateDepense(depense: Depense, form: FormGroup) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`

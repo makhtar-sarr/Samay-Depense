@@ -35,6 +35,13 @@ export class RevenuService {
     return this.httpClient.post('http://localhost:8000/api/revenus', formData, {headers})
   }
 
+  showRevenu(id: number) {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.httpClient.get(`http://localhost:8000/api/revenus/${id}`, {headers})
+  }
+
   updateRevenu(revenu: Revenu, form: FormGroup) {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${localStorage.getItem('token')}`

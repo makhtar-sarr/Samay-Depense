@@ -1,0 +1,55 @@
+<div class="container p-4">
+  <div class="list-group mt-5">
+    <a class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{ revenu?.montant_rev }} F cfa</h5>
+        <small>{{ revenu?.created_at | date: 'M/d/yyyy, H:mm' }}</small>
+      </div>
+      <p class="mb-1">Categorie: 
+        <span *ngFor="let catRev of catRevs">
+          <span *ngIf="revenu?.categorie_rev_id == catRev?.id">{{ catRev?.nom_cat}}</span>
+        </span>
+        <span *ngFor="let catRev of catRevDefault">
+          <span *ngIf="revenu?.categorie_rev_id == catRev?.id">{{ catRev?.nom_cat}}</span>
+        </span>
+      </p>
+      <small>Derniere modification: {{ revenu?.updated_at | date: 'M/d/yyyy, H:mm' }}</small>
+      <div>
+        <button type="button" class="btn btn-danger btn-sm" (click)="supprimerRevenu(revenu)"><mdb-icon fas icon="trash-alt"></mdb-icon></button>
+        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#basicExample" (click)="frame.show(); createFormUpdate(revenu)"><mdb-icon fas icon="edit"></mdb-icon></button>
+        <a routerLink="/revenu" type="button" class="btn btn-secondary btn-sm"><mdb-icon fas icon="caret-left"></mdb-icon> Retour</a>
+      </div>
+    </a>
+  </div>
+
+  <div style="overflow-y: auto" mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Modification</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="form2" (submit)="updateRevenu(revenu)">
+          <div class="modal-body mx-3">
+            <div class="md-form mb-2">
+              <input mdbInput type="text" formControlName="montant_rev" [ngClass]="{ 'is-invalid': f2.montant_rev.touched && f2.montant_rev.errors }" class="form-control">
+              <label>Montant</label>
+            </div>
+
+            <select class="browser-default custom-select mt-4" formControlName="categorie_rev_id">
+              <option [disabled]="true">Categorie</option>
+              <option *ngFor="let catRev of catRevs" [ngValue]="catRev?.id" >{{catRev?.nom_cat}}</option>
+              <option *ngFor="let catRev of catRevDefault" [ngValue]="catRev?.id" >{{catRev?.nom_cat}}</option>
+            </select>
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button mdbBtn color="purple" type="submit" [disabled]="!form2.valid" class="waves-light" mdbWavesEffect>Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

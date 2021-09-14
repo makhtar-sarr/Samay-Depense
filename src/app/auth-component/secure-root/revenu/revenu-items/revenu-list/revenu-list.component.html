@@ -62,6 +62,7 @@
                       <div class="btn-group dropleft" mdbDropdown>
                         <mdb-icon size="sm" fas icon="ellipsis-v" mdbDropdownToggle></mdb-icon>
                         <div class="dropdown-menu dropdown-menu-right dropdown-primary">
+                          <a class="dropdown-item" [routerLink]="['/revenu', revenu?.id]"><mdb-icon fas icon="eye"></mdb-icon> Voir</a>
                           <a class="dropdown-item" (click)="supprimerRevenu(revenu)"><mdb-icon fas icon="trash-alt"></mdb-icon> Supprimer</a>
                           <a class="dropdown-item" data-toggle="modal" data-target="#basicExample"
                           (click)="frame.show(); createFormUpdate(revenu)"><mdb-icon fas icon="edit"></mdb-icon> Modifier</a>

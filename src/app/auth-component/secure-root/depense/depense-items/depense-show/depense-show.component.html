@@ -1,0 +1,80 @@
+<div class="container p-4">
+  <div class="list-group mt-5">
+    <a class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{ depense?.nom_dep }}</h5>
+        <small>{{ depense?.created_at | date: 'M/d/yyyy, H:mm' }}</small>
+      </div>
+      <p class="mb-1"><strong>Categorie:</strong> 
+        <span *ngFor="let catDep of catDeps">
+          <span *ngIf="depense?.categorie_dep_id == catDep?.id">{{ catDep?.nom_cat}}</span>
+        </span>
+        <span *ngFor="let catDep of catDepDefault">
+          <span *ngIf="depense?.categorie_dep_id == catDep?.id">{{ catDep?.nom_cat}}</span>
+        </span>
+      </p>
+      <p class="mb-1" *ngIf="sousCatDeps?.length != 0 || sousCatDepDefault?.length != 0"> 
+        <span *ngFor="let sousCatDep of sousCatDeps">
+          <span *ngIf="depense?.sous_categorie_dep_id == sousCatDep?.id"><strong>Sous-categorie:</strong> {{ sousCatDep?.nom_sous_cat}}</span>
+        </span>
+        <span *ngFor="let sousCatDep of sousCatDepDefault">
+          <span *ngIf="depense?.sous_categorie_dep_id == sousCatDep?.id"><strong>Sous-categorie:</strong> {{ sousCatDep?.nom_sous_cat}}</span>
+        </span>
+      </p>
+      <p class="mb-1">{{ depense?.description_dep }}</p>
+      <small>Derniere modification: {{ depense?.updated_at | date: 'M/d/yyyy, H:mm' }}</small>
+      <div>
+        <button type="button" class="btn btn-danger btn-sm" (click)="supprimerDepense(depense)"><mdb-icon fas icon="trash-alt"></mdb-icon></button>
+        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#basicExample" (click)="frame.show(); createFormUpdate(depense)"><mdb-icon fas icon="edit"></mdb-icon></button>
+        <a routerLink="/depense" type="button" class="btn btn-secondary btn-sm"><mdb-icon fas icon="caret-left"></mdb-icon> Retour</a>
+      </div>
+    </a>
+  </div>
+
+  <div style="overflow-y: auto" mdbModal #frame="mdbModal" class="modal fade left" id="frameModalTop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title w-100 font-weight-bold">Modification</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form [formGroup]="form2" (submit)="updateDepense(depense)">
+          <div class="modal-body mx-3">
+            <div class="md-form mb-2">
+              <input mdbInput type="text" formControlName="nom_dep" [ngClass]="{ 'is-invalid': f2.nom_dep.touched && f2.nom_dep.errors }" class="form-control">
+              <label>Nom depense</label>
+            </div>
+
+            <div class="md-form mb-2">
+              <input mdbInput type="text" formControlName="montant_dep" [ngClass]="{ 'is-invalid': f2.nom_dep.touched && f2.montant_dep.errors }" class="form-control">
+              <label>Montant</label>
+            </div>
+
+            <select class="browser-default custom-select mt-4" formControlName="categorie_dep_id" (click)="getSousCatByCat(f2.categorie_dep_id.value)">
+              <option [disabled]="true">Categorie</option>
+              <option *ngFor="let catDep of catDeps" [ngValue]="catDep?.id" >{{catDep?.nom_cat}}</option>
+              <option *ngFor="let catDep of catDepDefault" [ngValue]="catDep?.id" >{{catDep?.nom_cat}}</option>
+            </select>
+
+            <select class="browser-default custom-select mt-4" formControlName="sous_categorie_dep_id">
+              <option [disabled]="true">Sous-categorie</option>
+              <option *ngFor="let sousCatDep of sousCatInput" [ngValue]="sousCatDep?.id">{{sousCatDep?.nom_sous_cat}}</option>
+            </select>
+
+            <div class="md-form">
+              <textarea mdbInput class="md-textarea form-control " formControlName="description_dep" rows="1" [ngClass]="{ 'is-invalid': f2.description_dep.touched && f2.description_dep.errors }" id="input_text" type="text" length="120" mdbCharCounter></textarea>
+              <label>Description</label>
+            </div>
+
+          </div>
+          <div class="modal-footer d-flex justify-content-center">
+            <button mdbBtn color="purple" type="submit" [disabled]="!form2.valid" class="waves-light" mdbWavesEffect>Enregistrer
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -39,6 +39,8 @@ import { DataTablesModule } from 'angular-datatables';
 import { RevenuComponent } from './auth-component/secure-root/revenu/revenu.component';
 import { RevenuListComponent } from './auth-component/secure-root/revenu/revenu-items/revenu-list/revenu-list.component';
 import { RevenuStatComponent } from './auth-component/secure-root/revenu/revenu-items/revenu-stat/revenu-stat.component';
+import { RevenuShowComponent } from './auth-component/secure-root/revenu/revenu-items/revenu-show/revenu-show.component';
+import { DepenseShowComponent } from './auth-component/secure-root/depense/depense-items/depense-show/depense-show.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import { RevenuStatComponent } from './auth-component/secure-root/revenu/revenu-
     ShowPipe,
     RevenuComponent,
     RevenuListComponent,
-    RevenuStatComponent
+    RevenuStatComponent,
+    RevenuShowComponent,
+    DepenseShowComponent
   ],
   imports: [
     BrowserModule,
